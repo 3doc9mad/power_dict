@@ -1,0 +1,43 @@
+from collections.abc import Mapping
+from copy import deepcopy
+
+
+class PowerFullDict(dict):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def __add__(self, other):
+        """
+        Возвращает новый PowerFullDict — результат глубокой слияния self и other.
+        """
+        if not isinstance(other, Mapping):
+            return NotImplemented
+        result = PowerFullDict(deepcopy(self))
+        PowerFullDict._deep_update(result, other)
+        return result
+
+    @staticmethod
+    def _deep_update(dest: dict, src: Mapping):
+        for key, value in src.items():
+            if (
+                    key in dest
+                    and isinstance(dest[key], Mapping)
+                    and isinstance(value, Mapping)
+            ):
+                PowerFullDict._deep_update(dest[key], value)
+            else:
+                dest[key] = deepcopy(value)
+
+    def inverted(self):
+        """
+        Переворачивает словарь
+
+        Важно!
+        Работает только с однослойными словарями!
+        """
+        return PowerFullDict({v: k for k, v in self.items()})
+
+    def __repr__(self):
+        return dict(self).__repr__()
+
+    __str__ = __repr__
