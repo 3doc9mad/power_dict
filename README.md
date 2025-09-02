@@ -23,10 +23,10 @@ Merge two dictionaries:
 
 dict1 = PowerFullDict({'a': {'x': 1}, 'b': 2})
 dict2 = PowerFullDict({'a': {'y': 2}, 'c': 3})
-```
+
 merged_dict = dict1 + dict2
 # Result: {'a': {'x': 1, 'y': 2}, 'b': 2, 'c': 3}
-
+```
 Inverting the Dictionary
 
 Invert keys and values:
